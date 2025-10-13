@@ -49,3 +49,169 @@ def check_sort(arr):
 
 print(check_sort([1, 2, 3, 4, 5]))
 print(check_sort([1, 2, 1, 6, 3]))
+
+
+def remove_duplicates(arr):
+    '''
+    Time complexity: O(n), Space O(1). Here we are counting the number of duplicates in a sorted array and returning the count
+    '''
+    i = 0
+    for j in range(1,len(arr)):
+        if(arr[i]!=arr[j]):
+            arr[i+1] = arr[j]
+            i+=1
+    return i+1
+
+print(remove_duplicates([1, 1, 2, 2, 3, 3]))
+
+def left_rotate(arr,d):
+    '''
+    Time complexity: O(n), Space O(n). This is the brute force solution for left rotating the array
+    '''
+    n = len(arr)
+    d%=n
+    if d==0:
+        return arr
+    temp = arr[:d]
+    for i in range(d,n):
+        arr[i-d] = arr[i]
+    arr[n-d:] = temp
+    # for i in range(n-d,n):
+    #     arr[n-d] = temp[i-(n-d)]
+    return arr
+
+print(left_rotate([1,2,3], 1))
+
+def reverse(arr,left,right):
+    while left<right:
+        arr[left], arr[right] = arr[right], arr[left]
+        left+=1
+        right-=1
+
+def left_rotate_reverse(arr,d):
+    '''
+    Time complexity: O(2n), Space O(1). This is the brute force solution for left rotating the array
+    '''
+    n = len(arr)
+    d%=n
+    if d==0:
+        return arr
+    
+    reverse(arr,0,d-1)
+    reverse(arr,d,n-1)
+    reverse(arr, 0, n-1)
+
+    return arr
+
+print(left_rotate_reverse([1,2,3], 9))
+
+def move_zeroes(arr):
+    '''
+    Time complexity: O(n), Space O(1)
+    '''
+    n = len(arr)
+    insert = 0
+    for x in arr:
+        if x!=0:
+            arr[insert] = x
+            insert+=1
+        
+    for i in range(insert, n):
+        arr[i] = 0
+    return arr
+
+print(move_zeroes([1,0,2,0,3]))
+
+def move_zeroes_second_method(arr):
+    '''
+    Time complexity: O(n), Space O(1)
+    '''
+    j = -1
+    for i in range(len(arr)):
+        if arr[i] == 0:
+            j = i
+            break
+    
+    if(j==-1): return arr
+
+    for i in range(j+1, len(arr)):
+        if arr[i]!=0:
+            arr[i], arr[j] = arr[j],arr[i]
+            j+=1
+    
+    return arr
+
+print(move_zeroes_second_method([1,0,2,0,3]))
+
+def linear_search(arr,x):
+    index = []
+    for i in range(len(arr)):
+        if x == arr[i]:
+            index.append(i)
+    return index
+
+print(linear_search([1,0,2,0,3], 0))
+
+def union_two_arrays(arr1, arr2):
+    m, n = len(arr1), len(arr2)
+    union_array = []
+    i = j = 0
+
+    while i < m and j < n:
+        if arr1[i] == arr2[j]:
+            union_array.append(arr1[i]) 
+            i += 1
+            j += 1
+        elif arr1[i] < arr2[j]:
+            union_array.append(arr1[i])
+            i += 1
+        else:
+            union_array.append(arr2[j])
+            j += 1
+
+    while i < m:
+        union_array.append(arr1[i])
+        i += 1
+    while j < n:
+        union_array.append(arr2[j])
+        j += 1
+
+    return union_array
+
+print(union_two_arrays([1,2], [1,3,4]))
+
+
+def intersect_two_arrays(arr1, arr2):
+    m, n = len(arr1), len(arr2)
+    intersect_array = []
+    seen_array = [0] * n
+    i = j = 0
+
+    for i in range(m):
+        for j in range(n):
+            if arr1[i] == arr2[j] and seen_array[j] == 0:
+                intersect_array.append(arr1[i])
+                seen_array[j] = 1
+                break
+
+    return intersect_array
+
+print(intersect_two_arrays([1,2,2,1], [2,2]))
+
+def intersect_two_arrays_second(arr1, arr2):
+    m, n = len(arr1), len(arr2)
+    intersect_array = []
+    i,j = 0,0
+    while i<m and j<n:
+        if(arr1[i]<arr2[j]):
+            i+=1
+        elif(arr1[i]>arr2[j]):
+            j+=1
+        else:
+            intersect_array.append(arr1[i])
+            i+=1
+            j+=1
+
+    return intersect_array
+
+print(intersect_two_arrays_second([1,2,2,1], [2,2]))
