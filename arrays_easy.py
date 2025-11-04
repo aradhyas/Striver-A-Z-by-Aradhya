@@ -199,6 +199,12 @@ def intersect_two_arrays(arr1, arr2):
 print(intersect_two_arrays([1,2,2,1], [2,2]))
 
 def intersect_two_arrays_second(arr1, arr2):
+    '''
+    Time: O(m + n)
+    Space: O(1)
+    '''
+    arr1.sort()
+    arr2.sort()
     m, n = len(arr1), len(arr2)
     intersect_array = []
     i,j = 0,0
@@ -208,10 +214,85 @@ def intersect_two_arrays_second(arr1, arr2):
         elif(arr1[i]>arr2[j]):
             j+=1
         else:
-            intersect_array.append(arr1[i])
+            if not intersect_array or intersect_array[-1] != arr1[i]:
+                intersect_array.append(arr1[i])
             i+=1
             j+=1
 
     return intersect_array
 
 print(intersect_two_arrays_second([1,2,2,1], [2,2]))
+
+def find_missing_number(arr,n):
+    '''
+    Time: O(n)
+    Space: O(1)
+    '''
+    arr_sum = n*(n+1)/2
+    total = 0
+    for i in arr:
+        total+=i
+    
+    missing_num = arr_sum - total
+    return int(missing_num)
+
+print(find_missing_number([1,3],3))
+
+def find_missing_number_using_XOR(arr,n):
+    '''
+    Time: O(n)
+    Space: O(1)
+    both the logics have same complexitites but XOR works better in situations when size of array is really big like 10^5
+    '''
+    xor1 = 0
+    xor2 = 0
+    m = n-1
+    for i in range(0,m):
+        xor1^=arr[i]
+        xor2^=(i+1)
+    xor2 ^= n 
+    missing_num = xor2^xor1
+    return int(missing_num)
+
+print(find_missing_number_using_XOR([1,3],3))
+
+def find_max_1s(arr):
+    count = 0
+    maxi = 0
+    for i in arr:
+        if i==1:
+            count+=1
+            maxi = max(count,maxi)
+        
+        else:
+            count = 0
+    
+    return maxi
+
+print(find_max_1s([1,1,0,1,1,1,0]))
+
+def num_appears_once(arr):
+    '''
+    Time: O(n)
+    Space: O(1)
+    so map takes O(nlog(map size)) and xor takes less time than that
+    '''
+    xorr = 0
+    for i in range(len(arr)):
+        xorr = xorr ^ arr[i]
+    return xorr
+
+print(num_appears_once([1,1,2,3,3,4,4]))
+
+def subarraySum(arr,k):
+    max_length = 0
+    for i in range(len(arr)):
+        total = 0
+        for j in range(len(arr)):
+            total+=arr[j]
+            if total == k:
+                max_length = max(max_length, j - i + 1)
+    
+    return max_length
+
+print(subarraySum([2, 3, 5, 1, 9],10))
