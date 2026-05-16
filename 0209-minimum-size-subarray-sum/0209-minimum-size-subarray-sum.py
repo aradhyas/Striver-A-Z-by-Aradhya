@@ -1,15 +1,15 @@
 import sys
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        min_len = sys.maxsize
-        l = 0
-        curr_sum = 0
-        for r in range(len(nums)):
-            curr_sum+=nums[r]
-
-            while curr_sum>=target:
-                min_len = min(min_len, r-l+1)
-                curr_sum-=nums[l]
-                l+=1
-        
-        return 0 if min_len == sys.maxsize else min_len
+        res = sys.maxsize
+        low = high = 0
+        total = 0
+        while high<len(nums):
+            total = nums[high] + total
+            while total>=target:
+                length = high-low+1
+                res = min(length, res)
+                total = total - nums[low]
+                low+=1
+            high+=1
+        return 0 if res == sys.maxsize else res
